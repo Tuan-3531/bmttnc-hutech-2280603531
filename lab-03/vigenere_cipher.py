@@ -36,8 +36,8 @@ class MyApp(QMainWindow):
         # Chuẩn bị payload để gửi đến API
         # Dựa trên lỗi 'Plaintext' bạn đã gặp, tôi sử dụng tên key với chữ cái đầu viết hoa
         payload = {
-            "Plaintext": plaintext, # Tên key này phải khớp với tên key mà API Flask mong đợi
-            "Key": key              # Tên key này cũng vậy
+            "plain_text": plaintext, # Tên key này phải khớp với tên key mà API Flask mong đợi
+            "key": key              # Tên key này cũng vậy
         }
 
         # Debug: In ra payload trước khi gửi để kiểm tra
@@ -55,9 +55,9 @@ class MyApp(QMainWindow):
             if response.status_code == 200:
                 data = response.json()
                 # Kiểm tra xem key 'encrypted_message' có tồn tại trong phản hồi không
-                if "encrypted_message" in data:
+                if "encrypted_text" in data:
                     # Hiển thị văn bản đã mã hóa vào ô txt_ciphertext
-                    self.ui.txt_ciphertext.setPlainText(data["encrypted_message"])
+                    self.ui.txt_ciphertext.setPlainText(data["encrypted_text"])
 
                     # Hiển thị thông báo thành công
                     msg = QMessageBox()
@@ -67,7 +67,7 @@ class MyApp(QMainWindow):
                     msg.exec_()
                 else:
                     QMessageBox.warning(self, "API Response Error", 
-                                        "API did not return 'encrypted_message' in response.")
+                                        "API did not return 'encrypted_text' in response.")
             else:
                 # Xử lý lỗi từ phía API (ví dụ: lỗi 4xx, 5xx)
                 error_info = response.text # Lấy thông tin lỗi từ phản hồi
@@ -96,8 +96,8 @@ class MyApp(QMainWindow):
         # Chuẩn bị payload để gửi đến API
         # Dựa trên lỗi trước đó, tôi sử dụng tên key với chữ cái đầu viết hoa
         payload = {
-            "Ciphertext": ciphertext, # Tên key này phải khớp với tên key mà API Flask mong đợi
-            "Key": key               # Tên key này cũng vậy
+            "cipher_text": ciphertext, # Tên key này phải khớp với tên key mà API Flask mong đợi
+            "key": key               # Tên key này cũng vậy
         }
 
         # Debug: In ra payload trước khi gửi để kiểm tra
@@ -115,9 +115,9 @@ class MyApp(QMainWindow):
             if response.status_code == 200:
                 data = response.json()
                 # Kiểm tra xem key 'decrypted_message' có tồn tại trong phản hồi không
-                if "decrypted_message" in data:
+                if "decrypted_text" in data:
                     # Hiển thị văn bản đã giải mã vào ô txt_plaintext
-                    self.ui.txt_plaintext.setPlainText(data["decrypted_message"])
+                    self.ui.txt_plaintext.setPlainText(data["decrypted_text"])
 
                     # Hiển thị thông báo thành công
                     msg = QMessageBox()
@@ -127,7 +127,7 @@ class MyApp(QMainWindow):
                     msg.exec_()
                 else:
                     QMessageBox.warning(self, "API Response Error", 
-                                        "API did not return 'decrypted_message' in response.")
+                                        "API did not return 'decrypted_text' in response.")
             else:
                 # Xử lý lỗi từ phía API (ví dụ: lỗi 4xx, 5xx)
                 error_info = response.text # Lấy thông tin lỗi từ phản hồi
